@@ -172,7 +172,7 @@ button:disabled {
   color: #999;
 }
 
-.location {
+.location-btn {
   display: flex;
   text-align: center;
   justify-content: flex-start;
