@@ -25,9 +25,19 @@ io.on('connection', (socket)=>{
       return callback('Name and room are required.');
     }
 
-    socket.join(params.room);
+    //if user already exists reject by returning a callback with err msg
+    var userExists = users.users.filter((user)=> user.name == params.name);
+    if (users.users.length >= 1 && userExists.length >= 1) {
+      if (params.name === userExists[0].name) {
+          return callback("User already exists. Please choose another username.")
+      }
+    }
+
+    socket.join((params.room).toLowerCase());
     users.removeUser(socket.id);
+
     users.addUser(socket.id, params.name, params.room);
+
 
     io.to(params.room).emit('updateUserList', users.getUserList(params.room));
 
@@ -52,7 +62,7 @@ io.on('connection', (socket)=>{
     if (user) {
       io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
     }
-    
+
   });
 
   socket.on('disconnect', ()=>{
