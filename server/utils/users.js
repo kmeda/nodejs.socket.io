@@ -25,7 +25,7 @@ class Users {
     return namesArray;
   }
 
-  getRoomList(){
+  getRoomName(){
     var roomsArray = this.users.map((user)=> user.room);
     return roomsArray;
   }
